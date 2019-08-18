@@ -12,6 +12,9 @@ class Predictor:
 		self.voter_results = voter_results
 
 	def learn_model(self):
+		if self.is_model_ready is True:
+			return None
+
 		try:
 			self.is_model_ready = True
 			return self._learn_model_impl()

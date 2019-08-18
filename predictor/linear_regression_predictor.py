@@ -4,8 +4,8 @@ from predictor.predictor import Predictor
 
 
 class LinearRegressionPredictor(Predictor):
-	EPOCHS_AMOUNT = 1000
-	ALPHA = 10**-4
+	EPOCHS_AMOUNT = 1000 * 5
+	ALPHA = 10**-3
 
 	# fixme: tried for an hour to made it with numpy
 	def __split_results_by_rows(self):
@@ -38,7 +38,7 @@ class LinearRegressionPredictor(Predictor):
 
 		print("mean square error is " + str(mean_sq_error))
 		self.coefs = coefs
-		print("coefs: " + str(coefs))
+		# print("coefs: " + str(coefs))
 
 	def _predict_impl(self, candidate1, candidate2):
 		return np.sum(([1] + candidate1.properties) * self.coefs) - np.sum(([1] +candidate2.properties) * self.coefs) > 0

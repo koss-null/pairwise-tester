@@ -1,15 +1,20 @@
 import math
 
 from predictor.linear_regression_predictor import LinearRegressionPredictor
-from predictor.predictor import Predictor
 
 
 def sum_point_counter(c):
 	return sum(c.properties)
 
+# emulates situation when different properties make different impact
+def different_cost_point_counter(c):
+	return c.properties[0] * 0.22 + c.properties[1] * 1.46 + c.properties[2] * 0.5 + sum(c.properties)
+
 
 class ImprovedVoter:
-	def __init__(self, label, winner_delta=0.2, no_competition_border=10, point_counter=sum_point_counter):
+	PREDICTOR = None
+
+	def __init__(self, label, winner_delta=0.2, no_competition_border=10, point_counter=different_cost_point_counter):
 		self.votes_done = 0
 		self.label = label
 		# map contains [wins, wins + losses]
@@ -18,7 +23,10 @@ class ImprovedVoter:
 		self.no_competition_border = no_competition_border
 		self.point_conuter = point_counter
 
-		self.predictor = LinearRegressionPredictor(label, [])
+		if ImprovedVoter.PREDICTOR is None:
+			self.predictor = LinearRegressionPredictor(label, [])
+			ImprovedVoter.PREDICTOR = self.predictor
+		else: self.predictor = ImprovedVoter.PREDICTOR
 		self.results = []
 
 	def _win_map_add(self, c, does_win):
@@ -50,7 +58,7 @@ class ImprovedVoter:
 		self.results.append([c1, c2, first_win])
 		self.votes_done += 1
 		# fixme: 50 is a random number
-		if self.votes_done == 100:
+		if self.votes_done == 1000:
 			self.predictor.voter_results = self.results
 			self.predictor.learn_model()
 		return first_win
