@@ -8,7 +8,7 @@ from local_utils.utils import *
 
 def main():
 	print("Start")
-	candidates = Random_generator(99).generate(1000)
+	candidates = Random_generator(3).generate(1000)
 	voters = [SumVoter("v1")] #, SecondVoter("v2")]
 	pw = Pairwiser(voters, candidates)
 	result = pw.elect(False)
@@ -20,7 +20,7 @@ def main():
 	print(voters[0].votes_done)
 
 	print("--------------------------------")
-	voters = [ImprovedVoter("v1", 0.4, 50)]
+	voters = [ImprovedVoter("v1", 0.1, 1000)]
 	pw = Pairwiser(voters, candidates)
 	result = pw.elect(False)
 	winner = select_condorcet_winner(result)
