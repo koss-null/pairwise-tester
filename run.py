@@ -29,14 +29,8 @@ def main():
 		voters = [ImprovedVoter("v1", 0.1, 1000)]
 		pw = Pairwiser(voters, candidates)
 		result = pw.elect(False)
-		winner = select_condorcet_winner(result)
-		print("Winner is: " + winner[0] + " ;total score: " + str(winner[1]) + " ;properties:")
-		print(list(filter(lambda x: x.label is winner[0], candidates))[0].properties)
-		print("full election results for " + winner[0])
-		print(result[winner[0]])
-		best_res2 = different_cost_point_counter(list(filter(lambda x: x.label is winner[0], candidates))[0])
-		print(best_res2)
-		print(voters[0].votes_done)
+		winner = select_condorcet_winner(result)\
+		
 		
 		print("diff " + str(best_res1 - best_res2))
 		diffs.append(best_res1 - best_res2)
